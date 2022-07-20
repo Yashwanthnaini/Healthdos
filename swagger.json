@@ -1,0 +1,2264 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Health Diet Online Search",
+      "description": "A community for Health experts and users"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/",
+    "tags": [
+      {
+        "name": "Users",
+        "description": "API for users in the system"
+      },
+      {
+        "name": "Experts",
+        "description": "API for health experts in the system"
+      },
+      {
+        "name": "Posts",
+        "description": "API for posts published by the experts in the system"
+      },
+      {
+        "name": "Queries",
+        "description": "API for Queries of the users in the system"
+      },
+      {
+        "name": "Solutions",
+        "description": "API for Solutions posted by experts for users queries in the system"
+      },
+      {
+        "name": "Feedbacks",
+        "description": "API for Feedbacks given by users for the solution posted by experts in the system"
+      },
+      {
+        "name": "Tags",
+        "description": "API for tags used in the system"
+      },
+      {
+        "name" : "Search",
+        "description": "Search api for posts queries in the system"
+      }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+
+
+    "paths": {
+  
+      "/users/register": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "Create new user in system",
+          "description": "",
+          "operationId": "addUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Register"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user created successfully"
+            },
+            "400": {
+              "description": "User already exists"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      
+      "/users/login":{
+        "post": {
+          "tags": ["Users"],
+          "summary": "Login user in system",
+          "description": "",
+          "operationId": "LoginUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Login"
+              }
+            }
+          ],
+          "responses": {
+            
+            "200": {
+              "description": "Login successfully"
+            },
+            "400": {
+              "description": "Invalid email or password"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/forgot": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "sends password reset link to user email.",
+          "description": "",
+          "operationId": "ResetPassword",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Reset"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password reset email sent successfully to your email"
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/reset": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "sends password reset link to user email.",
+          "description": "",
+          "operationId": "ResetPassword",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password reset email sent successfully to your email"
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/reset/{token}": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "Resets password for user",
+          "description": "",
+          "operationId": "ResetPassword",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "token",
+              "description": "token need to in params",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "password",
+              "description": "User password that needs to be updated",
+              "required": true,
+              "type" : "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password reset successfully"
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/get/me": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Get User profile details of login user",
+          "description": "",
+          "operationId": "getUserProfile",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user fetched successfully",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/get/verify":{
+        "get": {
+          "tags": ["Users"],
+          "summary": "sends email verification email to user email",
+          "description": "",
+          "operationId": "VerifyUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "verification email sent successfully to your email"
+            },
+            "404": {
+              "description": "invalid token"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/verify/{token}":{
+        "get": {
+          "tags": ["Users"],
+          "summary": "Verify user email",
+          "description": "",
+          "operationId": "VerifyUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user verified successfully"
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+      "/users/update": {
+        "put": {
+          "tags": ["Users"],
+          "summary": "update profile of the current user",
+          "description": "",
+          "operationId": "updateUserProfile",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/User"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/edit/email": {
+        "put": {
+          "tags": ["Users"],
+          "summary": "update email of the current user",
+          "description": "",
+          "operationId": "updateEmail",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "email",
+              "description": "email that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/experts/register": {
+        "post": {
+          "tags": ["Experts"],
+          "summary": "Create new expert in system",
+          "description": "",
+          "operationId": "addExpert",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "expert object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Register"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "expert created successfully"
+            },
+            "400": {
+              "description": "expert already exists"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      
+      "/experts/login":{
+        "post": {
+          "tags": ["Experts"],
+          "summary": "Login expert in system",
+          "description": "",
+          "operationId": "LoginExpert",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "expert object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Login"
+              }
+            }
+          ],
+          "responses": {
+            
+            "200": {
+              "description": "Login successfully"
+            },
+            "400": {
+              "description": "Invalid email or password"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/experts/forgot": {
+        "post": {
+          "tags": ["Experts"],
+          "summary": "sends password reset link to expert email.",
+          "description": "",
+          "operationId": "ResetPassword",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "expert object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Reset"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password reset email sent successfully to your email"
+            },
+            "404": {
+              "description": "expert not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/experts/reset": {
+        "post": {
+          "tags": ["Experts"],
+          "summary": "sends password reset link to expert email.",
+          "description": "",
+          "operationId": "ResetPassword",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password reset email sent successfully to your email"
+            },
+            "404": {
+              "description": "expert not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/experts/reset/{token}": {
+        "post": {
+          "tags": ["Experts"],
+          "summary": "Resets password for expert",
+          "description": "",
+          "operationId": "ResetPassword",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "token",
+              "description": "token need to in params",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "password",
+              "description": "expert password that needs to be updated",
+              "required": true,
+              "type" : "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password reset successfully"
+            },
+            "404": {
+              "description": "expert not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/experts/get/me": {
+        "get": {
+          "tags": ["Experts"],
+          "summary": "Get expert profile details of login expert",
+          "description": "",
+          "operationId": "getExpertProfile",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "expert fetched successfully",
+              "schema": {
+                "$ref": "#/definitions/Expert"
+              }
+            },
+            "404": {
+              "description": "expert not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/experts/get/verify":{
+        "get": {
+          "tags": ["Experts"],
+          "summary": "sends email verification email to expert email",
+          "description": "",
+          "operationId": "VerifyExpert",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "verification email sent successfully to your email"
+            },
+            "404": {
+              "description": "invalid token"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/experts/verify/{token}":{
+        "get": {
+          "tags": ["Experts"],
+          "summary": "Verify expert email",
+          "description": "",
+          "operationId": "VerifyExpert",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "expert verified successfully"
+            },
+            "404": {
+              "description": "expert not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/experts/update": {
+        "put": {
+          "tags": ["Experts"],
+          "summary": "update profile of the current expert",
+          "description": "",
+          "operationId": "updateExpertProfile",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "expert object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Expert"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This expert doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/experts/edit/email": {
+        "put": {
+          "tags": ["Experts"],
+          "summary": "update email of the current expert",
+          "description": "",
+          "operationId": "updateEmail",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "email",
+              "description": "email that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This expert doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/posts/add": {
+        "post": {
+          "tags": ["Posts"],
+          "summary": "add new post by expert",
+          "description": "",
+          "operationId": "addPost",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Post object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Post"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "post created successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/posts/get/{id}": {
+        "get": {
+          "tags": ["Posts"],
+          "summary": "Get posts by id",
+          "description": "",
+          "operationId": "getPostById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be fetched",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Post"
+              }
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/posts/get/{pagesize}/{pagenum}": {
+        "get": {
+          "tags": ["Posts"],
+          "summary": "Get total posts",
+          "description": "",
+          "operationId": "getPosts",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pagesize",
+              "description": "size of the page like 5 for 5 posts per page",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "pagenum",
+              "description": "page number",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Post"
+              }
+            },
+            "404": {
+              "description": "No posts found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/posts/get/myposts/{pagesize}/{pagenum}": {
+        "get": {
+          "tags": ["Posts"],
+          "summary": "Get total posts of the logined expert",
+          "description": "",
+          "operationId": "getPostsOfLogedinExpert",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pagesize",
+              "description": "size of the page like 5 for 5 posts per page",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "pagenum",
+              "description": "page number",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Post"
+              }
+            },
+            "404": {
+              "description": "No posts found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/posts/update/{id}": {
+        "put": {
+          "tags": ["Posts"],
+          "summary": "update post",
+          "description": "",
+          "operationId": "updatePostById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Post object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Post"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      
+
+      "/posts/delete/{id}": {
+        "delete": {
+          "tags": ["Posts"],
+          "summary": "delete post by id",
+          "description": "",
+          "operationId": "deletePostById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be deleted",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "post deleted"
+            },
+            "401": {
+              "description": "access denied."
+            },
+            "404": {
+              "description": "The post with the given ID was not found."
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/queries/add": {
+        "post": {
+          "tags": ["Queries"],
+          "summary": "add new Query",
+          "description": "",
+          "operationId": "addQuery",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Query object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Query"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Query created successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/queries/get/{id}": {
+        "get": {
+          "tags": ["Queries"],
+          "summary": "Get Query by id",
+          "description": "",
+          "operationId": "getQueryById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Query to be fetched",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Query"
+              }
+            },
+            "404": {
+              "description": "This Query doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+      "/queries/interested": {
+        "get": {
+          "tags": ["Queries"],
+          "summary": "Get Queries interested by current expert",
+          "description": "",
+          "operationId": "getQuery",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Query"
+              }
+            },
+            "404": {
+              "description": "no queries found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+      "/queries/get/{pagesize}/{pagenum}": {
+        "get": {
+          "tags": ["Queries"],
+          "summary": "Get total Queries",
+          "description": "",
+          "operationId": "getQueries",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pagesize",
+              "description": "size of the page like 5 for 5 posts per page",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "pagenum",
+              "description": "page number",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Query"
+              }
+            },
+            "404": {
+              "description": "No Queries found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/queries/get/myqueries/{pagesize}/{pagenum}": {
+        "get": {
+          "tags": ["Queries"],
+          "summary": "Get total Query of the logedin user",
+          "description": "",
+          "operationId": "getQueryOfLogedinUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pagesize",
+              "description": "size of the page like 5 for 5 Query per page",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "pagenum",
+              "description": "page number",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Query"
+              }
+            },
+            "404": {
+              "description": "No Query found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/queries/update/{id}": {
+        "put": {
+          "tags": ["Queries"],
+          "summary": "update Query",
+          "description": "",
+          "operationId": "updateQuery",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Query to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Query object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Query"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This Query doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/queries/delete/{id}": {
+        "delete": {
+          "tags": ["Queries"],
+          "summary": "delete Query by id",
+          "description": "",
+          "operationId": "deleteQueryById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Query to be deleted",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Query deleted"
+            },
+            "401": {
+              "description": "access denied."
+            },
+            "404": {
+              "description": "The Query with the given ID was not found."
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/solutions/add": {
+        "post": {
+          "tags": ["Solutions"],
+          "summary": "add new Solution",
+          "description": "",
+          "operationId": "addSolution",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Solution object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Solution"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Solution updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/solutions/update/{id}": {
+        "put": {
+          "tags": ["Solutions"],
+          "summary": "Update Solution",
+          "description": "",
+          "operationId": "UpdateSolution",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Solution object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Solution"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Solution updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/solutions/delete/{id}": {
+        "delete": {
+          "tags": ["Solutions"],
+          "summary": "delete solution by id",
+          "description": "",
+          "operationId": "deleteSolutionById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of solution to be deleted",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+
+          ],
+          "responses": {
+            "200": {
+              "description": "Solution deleted"
+            },
+            "404": {
+              "description": "The Solution with the given ID was not found."
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/tags/add": {
+        "post": {
+          "tags": ["Tags"],
+          "summary": "add new tag",
+          "description": "",
+          "operationId": "addTag",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "tag",
+              "description": "name of the tag",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "tag saved sucessfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/tags/get/": {
+        "get": {
+          "tags": ["Tags"],
+          "summary": "Get tags",
+          "description": "",
+          "operationId": "getTags",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Tag"
+              }
+            },
+            "404": {
+              "description": "no tags found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/feedbacks/add": {
+        "post": {
+          "tags": ["Feedbacks"],
+          "summary": "add new feedback",
+          "description": "",
+          "operationId": "addFeedback",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "types are solution,question,post",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Feedback"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "feedback updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/feedbacks/update/{id}": {
+        "put": {
+          "tags": ["Feedbacks"],
+          "summary": "update feedback",
+          "description": "",
+          "operationId": "updateFeedback",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "types are solution,question,post",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Feedback"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "feedback updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/feedbacks/delete/{id}": {
+        "delete": {
+          "tags": ["Feedbacks"],
+          "summary": "delete feedback by id",
+          "description": "",
+          "operationId": "deleteFeedbackById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of feedback to be deleted",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+
+          ],
+          "responses": {
+            "200": {
+              "description": "feedback deleted"
+            },
+            "404": {
+              "description": "The feedback with the given ID was not found."
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/search/{keyword}": {
+        "get": {
+          "tags": ["Search"],
+          "summary": "Get posts",
+          "description": "",
+          "operationId": "getPosts",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "keyword",
+              "description": "keyword that you interested in ",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Search"
+              }
+            },
+            "404": {
+              "description": "No data found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/search/posts/tags": {
+        "post": {
+          "tags": ["Search"],
+          "summary": "Get posts by tags ",
+          "description": "",
+          "operationId": "getPostsByTags",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "tags array",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/TagsArray"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Post"
+              }
+            },
+            "404": {
+              "description": "No data found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      }
+
+
+    },
+
+
+
+
+      "definitions": {
+
+        "User": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "dob": {
+              "type":"date",
+              "required":false
+            },
+            "gender": {
+              "type":"string",
+              "required":false
+            },
+            "bio": {
+              "type":"string",
+              "required":false
+            },
+            "twitterUrl": {
+              "type":"string",
+              "required":false
+            },
+            "instagramUrl": {
+              "type":"string",
+              "required":false
+            },
+            "linkedInUrl": {
+              "type":"string",
+              "required":false
+            },
+            "location": {
+              "type":"string",
+              "required":false
+            }
+            
+          }
+        },
+
+        "Expert": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "dob": {
+              "type":"date",
+              "required":false
+            },
+            "gender": {
+              "type":"string",
+              "required":false
+            },
+            "expertIn": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "required":false
+            } ,
+            "bio": {
+              "type":"string",
+              "required":false
+            },
+            "twitterUrl": {
+              "type":"string",
+              "required":false
+            },
+            "instagramUrl": {
+              "type":"string",
+              "required":false
+            },
+            "linkedInUrl": {
+              "type":"string",
+              "required":false
+            },
+            "location": {
+              "type":"string",
+              "required":false
+            }
+            
+          }
+        },
+
+        "Register":{
+          "type": "object",
+          "properties": {
+            "name": {
+              "type":"string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+
+
+        "Login":{
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+
+        "Reset":{
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            }
+          }
+        },
+
+        "ResetPassword":{
+          "type": "object",
+          "properties": {
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+
+
+
+        "Post": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "data": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+            
+          }
+        },
+
+
+        "Query": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "data": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+
+        "Solution": {
+          "type": "object",
+          "properties": {
+            "solution": {
+              "type": "string"
+            },
+            "queryId" : {
+              "type" : "string"
+            }
+          }
+        },
+
+        "Tag": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+
+        "Feedback": {
+          "type": "object",
+          "properties": {
+            "feedback": {
+              "type": "string"
+            },
+            "postId" : {
+              "type" : "string"
+            },
+            "type" :{
+              "type" : "solution | post"
+            }
+          }
+        },
+
+        "Search": {
+          "type": "object",
+          "properties": {
+            "posts" : {
+              "type" : "object"
+            }
+          }
+        },
+
+        "TagsArray": {
+          "type": "object",
+          "properties": {
+           "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+
+      } 
+}

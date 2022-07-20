@@ -1,0 +1,3255 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Askito Rest api",
+      "description": "A community for developers to share their knowledge"
+    },
+    "host": "askito.herokuapp.com",
+    "basePath": "/api/",
+    "tags": [
+      {
+        "name": "Users",
+        "description": "API for users in the system"
+      },
+      {
+        "name": "Admin",
+        "description": "API for Admins in the system"
+      },
+      {
+        "name": "Posts",
+        "description": "API for posts in the system"
+      },
+      {
+        "name": "Questions",
+        "description": "API for Questions in the system"
+      },
+
+      {
+        "name": "Answers",
+        "description": "API for Answers in the system"
+      },
+
+      {
+        "name": "Comments",
+        "description": "API for comments in the system"
+      },
+      {
+        "name": "Tags",
+        "description": "API for tags in the system"
+      },
+      {
+        "name": "Notifications",
+        "description": "API for users in the system"
+      },
+      {
+        "name": "Oauth",
+        "description": "Oauth for authentication"
+      },
+      {
+        "name" : "Search",
+        "description": "Search api"
+      }
+    ],
+    "schemes": ["https"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+
+
+      "/users/register": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "Create new user in system",
+          "description": "",
+          "operationId": "addUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user created successfully"
+            },
+            "400": {
+              "description": "User already exists (or) try different username"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      
+      "/users/login":{
+        "post": {
+          "tags": ["Users"],
+          "summary": "Login user in system",
+          "description": "",
+          "operationId": "LoginUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Login"
+              }
+            }
+          ],
+          "responses": {
+            
+            "200": {
+              "description": "Login successfully"
+            },
+            "400": {
+              "description": "Invalid email or password"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/forgot": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "sends password reset link to user email.",
+          "description": "",
+          "operationId": "ResetPassword",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Reset"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password reset email sent successfully to your email"
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/reset": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "sends password reset link to user email.",
+          "description": "",
+          "operationId": "ResetPassword",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password reset email sent successfully to your email"
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/users/reset/{token}": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "Resets password for user",
+          "description": "",
+          "operationId": "ResetPassword",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "token",
+              "description": "token need to in params",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "password",
+              "description": "User password that needs to be updated",
+              "required": true,
+              "type" : "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password reset successfully"
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/get/user/{name}": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Get User profile details by name",
+          "description": "",
+          "operationId": "getUserProfileByName",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "name",
+              "description": "name of user to be fetched",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user fetched successfully",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/get/me": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Get User profile details of login user",
+          "description": "",
+          "operationId": "getUserProfile",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user fetched successfully",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/get/verify":{
+        "get": {
+          "tags": ["Users"],
+          "summary": "sends email verification email to user email",
+          "description": "",
+          "operationId": "VerifyUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "verification email sent successfully to your email"
+            },
+            "404": {
+              "description": "invalid token"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/verify/{token}":{
+        "get": {
+          "tags": ["Users"],
+          "summary": "Verify user email",
+          "description": "",
+          "operationId": "VerifyUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user verified successfully"
+            },
+            "404": {
+              "description": "user not found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+      "/users/update": {
+        "put": {
+          "tags": ["Users"],
+          "summary": "update profile of the current user",
+          "description": "",
+          "operationId": "updateUserProfile",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/User"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+      "/users/edit/username": {
+        "put": {
+          "tags": ["Users"],
+          "summary": "update username of the current user",
+          "description": "",
+          "operationId": "updateUsername",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "name",
+              "description": "name of the user that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/edit/email": {
+        "put": {
+          "tags": ["Users"],
+          "summary": "update email of the current user",
+          "description": "",
+          "operationId": "updateEmail",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "email",
+              "description": "email that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+      "/users/edit/dob": {
+        "put": {
+          "tags": ["Users"],
+          "summary": "update date of birth of the current user",
+          "description": "",
+          "operationId": "updateDOB",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "dob",
+              "type": "date",
+              "description": "dob that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      "/users/edit/gender": {
+        "put": {
+          "tags": ["Users"],
+          "summary": "update gender of the current user",
+          "description": "",
+          "operationId": "updateGender",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "gender",
+              "description": "gender that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/users/edit/expertin": {
+        "put": {
+          "tags": ["Users"],
+          "summary": "update expertIn of the current user",
+          "description": "",
+          "operationId": "updateExperIn",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "expertIn",
+              "description": "expertIn array that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/users/get/{pagesize}/{pagenum}": {
+        "get": {
+          "tags": ["Admin"],
+          "summary": "Get total users in alphabetical order by name",
+          "description": "",
+          "operationId": "getUsers",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pagesize",
+              "description": "size of the page like 5 for 5 users per page",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "pagenum",
+              "description": "page number",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "404": {
+              "description": "No users found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/delete/{id}": {
+        "delete": {
+          "tags": ["Admin"],
+          "summary": "delete user by id",
+          "description": "",
+          "operationId": "deleteUserById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of user to be deleted",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted"
+            },
+            "404": {
+              "description": "The User with the given ID was not found."
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      "/users/admin/update": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update profile of the user by id",
+          "description": "",
+          "operationId": "updateUserProfileById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/User"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/edit/username/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update username of the user by id ",
+          "description": "",
+          "operationId": "updateUsername",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "name",
+              "description": "name of the user that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of the user that needs to be updated ",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/users/edit/email/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update email of the user by id ",
+          "description": "",
+          "operationId": "updateEmail",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "email",
+              "description": "email that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of the user that needs to be updated ",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+         
+       
+
+
+      "/posts/admin/edit/title/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update post title by id",
+          "description": "",
+          "operationId": "updatePostTitleById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "title",
+              "description": "Post title that needs to be updated",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/users/edit/dob/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update dob of the user by id ",
+          "description": "",
+          "operationId": "updateDOB",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "dob",
+              "type":"date",
+              "description": "dob that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of the user that needs to be updated ",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/users/edit/gender/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update gender of the user by id ",
+          "description": "",
+          "operationId": "updateGender",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "gender",
+              "type":"string",
+              "description": "gender that needs to be updated.",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of the user that needs to be updated ",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This user doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/posts/admin/update/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update post",
+          "description": "",
+          "operationId": "updatePostById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Post object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Post"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/posts/admin/edit/data/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update post data by id",
+          "description": "",
+          "operationId": "updatePostDataById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "data",
+              "description": "Post data that needs to be updated",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      "/posts/admin/edit/tags/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update post tags by id",
+          "description": "",
+          "operationId": "updatePostTagsById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "tags",
+              "type": "array",
+              "description": "Post tags that needs to be updated",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/posts/admin/delete/:{id}": {
+        "delete": {
+          "tags": ["Admin"],
+          "summary": "delete post by id",
+          "description": "",
+          "operationId": "deletePostById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be deleted",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "post deleted"
+            },
+            "401": {
+              "description": "access denied."
+            },
+            "404": {
+              "description": "The post with the given ID was not found."
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/questions/admin/update/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update Question",
+          "description": "",
+          "operationId": "updateQuestionById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Question object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Question"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This Question doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/admin/questions/edit/title/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update Question title by id",
+          "description": "",
+          "operationId": "updateQuestionTitleById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "title",
+              "description": "Question title that needs to be updated",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This Question doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      "/admin/questions/edit/data/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update Question data by id",
+          "description": "",
+          "operationId": "updateQuestionDataById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "title",
+              "description": "Question boby that needs to be updated",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This Question doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/admin/questions/edit/tags/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "summary": "update Question tags by id",
+          "description": "",
+          "operationId": "updateQuestionTagsById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "tags",
+              "description": "tags array",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This Question doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/admin/questions/delete/{id}": {
+        "delete": {
+          "tags": ["Admin"],
+          "summary": "delete Question by id",
+          "description": "",
+          "operationId": "deleteQuestionById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be deleted",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Question deleted"
+            },
+            "401": {
+              "description": "access denied."
+            },
+            "404": {
+              "description": "The Question with the given ID was not found."
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/posts/add": {
+        "post": {
+          "tags": ["Posts"],
+          "summary": "add new post",
+          "description": "",
+          "operationId": "addPost",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Post object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Post"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "post created successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/posts/get/{id}": {
+        "get": {
+          "tags": ["Posts"],
+          "summary": "Get posts by id",
+          "description": "",
+          "operationId": "getPostById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be fetched",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Post"
+              }
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/posts/get/{pagesize}/{pagenum}": {
+        "get": {
+          "tags": ["Posts"],
+          "summary": "Get total posts",
+          "description": "",
+          "operationId": "getPosts",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pagesize",
+              "description": "size of the page like 5 for 5 posts per page",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "pagenum",
+              "description": "page number",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Post"
+              }
+            },
+            "404": {
+              "description": "No posts found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/posts/get/myposts/{pagesize}/{pagenum}": {
+        "get": {
+          "tags": ["Posts"],
+          "summary": "Get total posts of the login user",
+          "description": "",
+          "operationId": "getPostsOfLoginUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pagesize",
+              "description": "size of the page like 5 for 5 posts per page",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "pagenum",
+              "description": "page number",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Post"
+              }
+            },
+            "404": {
+              "description": "No posts found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/posts/update/{id}": {
+        "put": {
+          "tags": ["Posts"],
+          "summary": "update post",
+          "description": "",
+          "operationId": "updatePostById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Post object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Post"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/posts/edit/title/{id}": {
+        "put": {
+          "tags": ["Posts"],
+          "summary": "update post title by id",
+          "description": "",
+          "operationId": "updatePostTitleById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "title",
+              "description": "Post title that needs to be updated",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/posts/edit/data/{id}": {
+        "put": {
+          "tags": ["Posts"],
+          "summary": "update post data by id",
+          "description": "",
+          "operationId": "updatePostDataById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "data",
+              "description": "Post data that needs to be updated",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      "/posts/edit/tags/{id}": {
+        "put": {
+          "tags": ["Posts"],
+          "summary": "update post tags by id",
+          "description": "",
+          "operationId": "updatePostTagsById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "tags",
+              "description": "Post tags that needs to be updated",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "404": {
+              "description": "This post doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/posts/delete/{id}": {
+        "delete": {
+          "tags": ["Posts"],
+          "summary": "delete post by id",
+          "description": "",
+          "operationId": "deletePostById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of post to be deleted",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "post deleted"
+            },
+            "401": {
+              "description": "access denied."
+            },
+            "404": {
+              "description": "The post with the given ID was not found."
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/questions/add": {
+        "post": {
+          "tags": ["Questions"],
+          "summary": "add new Question",
+          "description": "",
+          "operationId": "addQuestion",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Question object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Question"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Question created successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/questions/get/{id}": {
+        "get": {
+          "tags": ["Questions"],
+          "summary": "Get Question by id",
+          "description": "",
+          "operationId": "getQuestionById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be fetched",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Question"
+              }
+            },
+            "404": {
+              "description": "This Question doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/questions/get/{pagesize}/{pagenum}": {
+        "get": {
+          "tags": ["Questions"],
+          "summary": "Get total Questions",
+          "description": "",
+          "operationId": "getQuestions",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pagesize",
+              "description": "size of the page like 5 for 5 posts per page",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "pagenum",
+              "description": "page number",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Question"
+              }
+            },
+            "404": {
+              "description": "No Questions found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/questions/get/myquestions/{pagesize}/{pagenum}": {
+        "get": {
+          "tags": ["Questions"],
+          "summary": "Get total Question of the login user",
+          "description": "",
+          "operationId": "getQuestionOfLoginUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pagesize",
+              "description": "size of the page like 5 for 5 Question per page",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "pagenum",
+              "description": "page number",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Question"
+              }
+            },
+            "404": {
+              "description": "No Question found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/questions/update/{id}": {
+        "put": {
+          "tags": ["Questions"],
+          "summary": "update Question",
+          "description": "",
+          "operationId": "updateQuestion",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Question object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Question"
+              }
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This Question doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/questions/edit/title/{id}": {
+        "put": {
+          "tags": ["Questions"],
+          "summary": "update Question title by id",
+          "description": "",
+          "operationId": "updateQuestionTitleById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "title",
+              "description": "Question title that needs to be updated",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This Question doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      "/questions/edit/data/{id}": {
+        "put": {
+          "tags": ["Questions"],
+          "summary": "update Question data by id",
+          "description": "",
+          "operationId": "updateQuestionDataById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "title",
+              "description": "Question boby that needs to be updated",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This Question doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+      "/questions/edit/tags/{id}": {
+        "put": {
+          "tags": ["Questions"],
+          "summary": "update Question tags by id",
+          "description": "",
+          "operationId": "updateQuestionTagsById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "tags",
+              "description": "tags array",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+              
+            },
+            "404": {
+              "description": "This Question doesn't exist"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/questions/delete/{id}": {
+        "delete": {
+          "tags": ["Questions"],
+          "summary": "delete Question by id",
+          "description": "",
+          "operationId": "deleteQuestionById",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "id of Question to be deleted",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Question deleted"
+            },
+            "401": {
+              "description": "access denied."
+            },
+            "404": {
+              "description": "The Question with the given ID was not found."
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/answers/add": {
+        "post": {
+          "tags": ["Answers"],
+          "summary": "add new Answer",
+          "description": "",
+          "operationId": "addAnswer",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Answer object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Answer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Answer updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/answers/update/{id}": {
+        "post": {
+          "tags": ["Answers"],
+          "summary": "Update Answer",
+          "description": "",
+          "operationId": "UpdateAnswer",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Answer object that needs to be added to the system",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Answer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Answer updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+      "/answers/update/iscorrect/{id}": {
+        "put": {
+          "tags": ["Answers"],
+          "summary": "update Answers iscorrect",
+          "description": "",
+          "operationId": "updateAnswersIscorrect",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/tags/add": {
+        "post": {
+          "tags": ["Tags"],
+          "summary": "add new tag",
+          "description": "",
+          "operationId": "addTag",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "tag",
+              "description": "name of the tag",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "tag saved sucessfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/tags/get/": {
+        "get": {
+          "tags": ["Tags"],
+          "summary": "Get tags",
+          "description": "",
+          "operationId": "getTags",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Tag"
+              }
+            },
+            "404": {
+              "description": "no tags found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/oauth/google": {
+        "get": {
+          "tags": ["Oauth"],
+          "summary": "for google authentication",
+          "description": "",
+          "operationId": "Oauth",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+          ],
+          "responses": {
+            "200": {
+              "description": "redirected to home page"
+            },
+            "404": {
+              "description": "authentication failed"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/notifications/get/": {
+        "get": {
+          "tags": ["Notifications"],
+          "summary": "Get Notifications of the loged in user",
+          "description": "",
+          "operationId": "getNotificationsOfLogedInUser",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Notification"
+              }
+            },
+            "404": {
+              "description": "no notifications found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/notifications/update/noticed/{id}": {
+        "put": {
+          "tags": ["Notifications"],
+          "summary": "update Notification noticed",
+          "description": "",
+          "operationId": "updateNotificationNoticed",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/comments/add": {
+        "post": {
+          "tags": ["Comments"],
+          "summary": "add new comment",
+          "description": "",
+          "operationId": "addComment",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "types are answer,question,post",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Comment"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "comment updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+      "/comments/update/{id}": {
+        "put": {
+          "tags": ["Comments"],
+          "summary": "update comment",
+          "description": "",
+          "operationId": "updateComment",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "x-auth-token",
+              "description": "token to be verified",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "types are answer,question,post",
+              "required": true,
+              "schema": {
+              "$ref": "#/definitions/Comment"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "comment updated successfully"
+            },
+            "400": {
+              "description": "Invalid user"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      "/search/{keyword}": {
+        "get": {
+          "tags": ["Search"],
+          "summary": "Get users posts questions ",
+          "description": "",
+          "operationId": "getUsers",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "keyword",
+              "description": "keyword that you interested in ",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Search"
+              }
+            },
+            "404": {
+              "description": "No data found"
+            },
+            "500": {
+              "description": "something went wrong try after some time!"
+            }
+          }
+        }
+      }
+
+
+    },
+
+
+
+
+      "definitions": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "dob": {
+              "type":"date",
+              "required":false
+            },
+            "gender": {
+              "type":"string",
+              "required":false
+            },
+            "expertIn": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "required":false
+            } ,
+            "bio": {
+              "type":"string",
+              "required":false
+            },
+            "url": {
+              "type":"string",
+              "required":false
+            },
+            "twitterUrl": {
+              "type":"string",
+              "required":false
+            },
+            "instagramUrl": {
+              "type":"string",
+              "required":false
+            },
+            "location": {
+              "type":"string",
+              "required":false
+            }
+            
+          }
+        },
+        "Login":{
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "Reset":{
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            }
+          }
+        },
+        "ResetPassword":{
+          "type": "object",
+          "properties": {
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+
+
+
+        "Post": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "data": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+            
+          }
+        },
+
+
+        "Question": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "data": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+
+        "Answer": {
+          "type": "object",
+          "properties": {
+            "answer": {
+              "type": "string"
+            },
+            "questionId" : {
+              "type" : "string"
+            }
+          }
+        },
+
+
+        "Tag": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+
+        "Notification": {
+          "type": "object",
+          "properties": {
+            "notification": {
+              "type": "string"
+            }
+          }
+        },
+
+
+        "Comment": {
+          
+          "type": "object",
+          "properties": {
+            "comment": {
+              "type": "string"
+            },
+            "postId" : {
+              "type" : "string"
+            },
+            "type" :{
+              "type" : "answer | question | post"
+            }
+          }
+        },
+
+
+        "Search": {
+          "type": "object",
+          "properties": {
+            "users": {
+              "type": "object"
+            },
+            "posts" : {
+              "type" : "object"
+            },
+            "questions" : {
+              "type" : "object"
+            }
+          }
+        }
+
+      } 
+}
