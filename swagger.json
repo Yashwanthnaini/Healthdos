@@ -5,7 +5,7 @@
       "title": "Health Diet Online Search",
       "description": "A community for Health experts and users"
     },
-    "host": "localhost:3000",
+    "host": "healthdos.herokuapp.com",
     "basePath": "/api/",
     "tags": [
       {
@@ -41,7 +41,7 @@
         "description": "Search api for posts queries in the system"
       }
     ],
-    "schemes": ["http"],
+    "schemes": ["https"],
     "consumes": ["application/json"],
     "produces": ["application/json"],
 
